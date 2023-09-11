@@ -4,11 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 12f;
     [SerializeField] float jumpHeight = 5f;
-
+    private Rigidbody _rb = null;
     public CharacterController controller;
     public float gravity = -9.81f;
     public Transform groundCheck;
@@ -17,9 +18,9 @@ public class PlayerController : MonoBehaviour
 
     Vector3 velocity;
     private bool isGrounded;
-    private void Start() 
+    private void Awake() 
     {
-        
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Update() 
