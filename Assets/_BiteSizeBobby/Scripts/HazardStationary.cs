@@ -21,12 +21,16 @@ public class HazardStationary : MonoBehaviour
         PlayerController playerCharacter = other.gameObject.GetComponent<PlayerController>();
         //Debug.Log("object is colliding");
 
-        if (playerCharacter != null) 
+        if (playerCharacter != null ) 
         {
-            playerStats.TakeDamage(_damageHit);
+            if (playerStats._invincibility == false)
+            {
+                playerStats.TakeDamage(_damageHit);
 
-            gameManager.SubtractScore(_damageScore);
-            //Debug.Log("is colliding with player");
+                gameManager.SubtractScore(_damageScore);
+
+            } else { Debug.Log("invincible!"); }
+            
         }
     }
 }

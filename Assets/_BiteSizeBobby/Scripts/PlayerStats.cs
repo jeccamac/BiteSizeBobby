@@ -8,8 +8,12 @@ using UnityEngine.UIElements;
 
 public class PlayerStats : MonoBehaviour
 {
+    [Header("Health Stats")]
     [SerializeField] int _health = 3;
     [SerializeField] int _maxHealth = 3;
+    public bool _invincibility = false;
+
+    [Header("Health Display Assets")]
     public ImageAnimation _healthIcon1;
     public ImageAnimation _healthIcon1_empty;
     public ImageAnimation _healthIcon2;
