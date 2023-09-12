@@ -46,4 +46,15 @@ public class PlayerController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
 
     }
+
+    public void OnDeath()
+    {
+        //destroy player
+        Debug.Log("oh no you died");
+        this.gameObject.SetActive(false);
+        
+        //restart level with all stats reset
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        gameManager.ReloadLevel("Sandbox");
+    }
 }

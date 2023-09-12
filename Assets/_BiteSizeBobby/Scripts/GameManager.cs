@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     {
         UpdateScore();
         UpdateCollectible();
+
+        if (Input.GetKeyDown(KeyCode.Backspace)) //this is temporary, just for testing. Add actual pause menu in future
+        {
+            ReloadLevel("Sandbox");
+        }
     }
 
     public void UpdateScore()
@@ -47,4 +52,11 @@ public class GameManager : MonoBehaviour
         _coins = Mathf.Clamp(_coins, 0, 100000);
         Debug.Log("collected coins");
     }
+
+    public void ReloadLevel(string levelName)
+    {
+        Debug.Log("sceneName to load: " + levelName);
+        SceneManager.LoadScene(levelName);
+    }
 }
+

@@ -80,7 +80,8 @@ public class PlayerStats : MonoBehaviour
 
         if (_health == 0)
         {
-            OnDeath();
+            PlayerController playerController = FindObjectOfType<PlayerController>();
+            playerController.OnDeath();
         }
     }
 
@@ -92,12 +93,4 @@ public class PlayerStats : MonoBehaviour
         _health = Mathf.Clamp(_health, 0, _maxHealth);
     }
 
-    public void OnDeath()
-    {
-        //destroy player
-        Debug.Log("oh no you died");
-        this.gameObject.SetActive(false);
-        //restart last checkpoint
-
-    }
 }
