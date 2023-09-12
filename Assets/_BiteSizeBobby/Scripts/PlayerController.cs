@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     Vector3 velocity;
     private bool isGrounded;
+    private bool isFacingRight = true;
 
     GameManager gameManager;
     private void Awake() 
@@ -31,17 +32,30 @@ public class PlayerController : MonoBehaviour
 
     private void Update() 
     {
+        //check ground
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
         }
+
+        //move player
         float hmove = Input.GetAxis("Horizontal");
 
         Vector3 moveRight = transform.right * hmove;
         controller.Move(moveRight * moveSpeed * Time.deltaTime);
 
+        //face direction
+        if (isFacingRight && hmove < 0f || !isFacingRight && hmove > 0f)
+        {
+            isFacingRight = !isFacingRight;
+            Vector3 localScale = transform.localScale; //get transform
+            localScale.x *= -1f; //flip
+            transform.localScale = localScale; //update
+        }
+        
+        //jump
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * -gravity);
