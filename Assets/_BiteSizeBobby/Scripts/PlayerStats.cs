@@ -8,8 +8,12 @@ using UnityEngine.UIElements;
 
 public class PlayerStats : MonoBehaviour
 {
+    [Header("Health Stats")]
     [SerializeField] int _health = 3;
     [SerializeField] int _maxHealth = 3;
+    public bool _invincibility = false;
+
+    [Header("Health Display Assets")]
     public ImageAnimation _healthIcon1;
     public ImageAnimation _healthIcon1_empty;
     public ImageAnimation _healthIcon2;
@@ -80,7 +84,8 @@ public class PlayerStats : MonoBehaviour
 
         if (_health == 0)
         {
-            OnDeath();
+            PlayerController playerController = FindObjectOfType<PlayerController>();
+            playerController.OnDeath();
         }
     }
 
@@ -92,12 +97,4 @@ public class PlayerStats : MonoBehaviour
         _health = Mathf.Clamp(_health, 0, _maxHealth);
     }
 
-    public void OnDeath()
-    {
-        //destroy player
-        Debug.Log("oh no you died");
-        this.gameObject.SetActive(false);
-        //restart last checkpoint
-
-    }
 }

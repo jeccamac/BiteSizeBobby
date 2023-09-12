@@ -8,15 +8,24 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Point Settings")]
     [SerializeField] Text _scoreText = null;
     [SerializeField] Text _coinText = null;
     public int _score = 0;
     public int _coins = 0;
 
+    [Header("Restart Settings")]
+    [SerializeField] float _restartDelay = 2f;
+
     public void Update()
     {
         UpdateScore();
         UpdateCollectible();
+
+        if (Input.GetKeyDown(KeyCode.Backspace)) //this is temporary, just for testing. Add actual pause menu in future
+        {
+            ReloadLevel();
+        }
     }
 
     public void UpdateScore()
@@ -47,4 +56,26 @@ public class GameManager : MonoBehaviour
         _coins = Mathf.Clamp(_coins, 0, 100000);
         Debug.Log("collected coins");
     }
+
+    public void DeathReload()
+    {
+        StartCoroutine(DeathSequence());
+
+        IEnumerator DeathSequence()
+        {            
+            //wait for seconds before restarting
+            yield return new WaitForSeconds(_restartDelay);
+            
+            //restart level with all stats reset
+            Debug.Log("restarting level");
+            ReloadLevel(); //load the current level
+        }
+    }
+    public void ReloadLevel()
+    {
+        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(activeSceneIndex);
+        Debug.Log("sceneName to load: " + activeSceneIndex);
+    }
 }
+

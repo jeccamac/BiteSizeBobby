@@ -7,10 +7,13 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Settings")]
     [SerializeField] float moveSpeed = 12f;
     [SerializeField] float jumpHeight = 5f;
     private Rigidbody _rb = null;
     public CharacterController controller;
+
+    [Header("Ground Check")]
     public float gravity = 9.81f;
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -18,9 +21,12 @@ public class PlayerController : MonoBehaviour
 
     Vector3 velocity;
     private bool isGrounded;
+
+    GameManager gameManager;
     private void Awake() 
     {
         _rb = GetComponent<Rigidbody>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update() 
@@ -45,5 +51,13 @@ public class PlayerController : MonoBehaviour
 
         controller.Move(velocity * Time.deltaTime);
 
+    }
+
+    public void OnDeath()
+    {
+        //destroy player
+        Debug.Log("oh no you died");
+        this.gameObject.SetActive(false);
+        gameManager.DeathReload();
     }
 }
