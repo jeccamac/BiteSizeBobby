@@ -6,8 +6,8 @@ public class CollectibleCoin : MonoBehaviour
 {
     [SerializeField] AudioSource _sndCollect = null;
     [SerializeField] float _rotateSpeed = 0.5f;
-    public int coinAmount = 1;
-    public int scoreAmount = 100;
+    public int _coinAmount = 1;
+    public int _scoreAmount = 100;
 
     private GameManager gameManager;
 
@@ -29,8 +29,8 @@ public class CollectibleCoin : MonoBehaviour
         {
             //_sndCollect.Play();
 
-            gameManager.AddScore(scoreAmount);
-            gameManager.AddCoins(coinAmount);
+            gameManager.AddScore(_scoreAmount);
+            gameManager.AddCoins(_coinAmount);
 
             Destroy(gameObject, 0.1f);
         }

@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager instance;
+
     [Header("Point Settings")]
     [SerializeField] Text _scoreText = null;
     [SerializeField] Text _coinText = null;
@@ -17,14 +19,29 @@ public class GameManager : MonoBehaviour
     [Header("Restart Settings")]
     [SerializeField] float _restartDelay = 2f;
 
+    public Vector3 _lastCheckpoint;
+    private PlayerController playerController;
+    private PlayerStats playerStats;
+
+    private void Awake() 
+    {
+        if (instance == null)
+        {
+            instance = this; //create a game manager
+            DontDestroyOnLoad(instance); //don't destroy itself in btwn scenes
+        } else { Destroy(gameObject); } //don't make multiple game managers in the scene
+
+        playerController = FindObjectOfType<PlayerController>();
+        playerStats = FindObjectOfType<PlayerStats>();
+    }
     public void Update()
     {
         UpdateScore();
         UpdateCollectible();
 
-        if (Input.GetKeyDown(KeyCode.Backspace)) //this is temporary, just for testing. Add actual pause menu in future
+        if (Input.GetKeyDown(KeyCode.Backspace)) //pressing backspace is temporary, just for testing. Add actual pause menu in future
         {
-            ReloadLevel();
+            RestartLevel();
         }
     }
 
@@ -66,12 +83,15 @@ public class GameManager : MonoBehaviour
             //wait for seconds before restarting
             yield return new WaitForSeconds(_restartDelay);
             
-            //restart level with all stats reset
-            Debug.Log("restarting level");
-            ReloadLevel(); //load the current level
+            //reload level with some stats reset
+            Debug.Log("load from last checkpoint");
+            playerController.transform.position = _lastCheckpoint; //load from last checkpoint
+            playerStats.AddHealth(3);//reset health stats
+            playerController.gameObject.SetActive(true); //load player character
+            //RestartLevel();
         }
     }
-    public void ReloadLevel()
+    public void RestartLevel() //restart the CURRENT level
     {
         int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(activeSceneIndex);

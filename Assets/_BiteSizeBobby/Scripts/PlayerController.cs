@@ -8,23 +8,24 @@ using UnityEngine.AI;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Settings")]
-    [SerializeField] float moveSpeed = 12f;
-    [SerializeField] float jumpHeight = 5f;
+    [SerializeField] float _moveSpeed = 12f;
+    [SerializeField] float _jumpHeight = 5f;
     private Rigidbody _rb = null;
-    public CharacterController controller;
+    public CharacterController _controller;
 
     [Header("Ground Check")]
-    public float gravity = 9.81f;
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
+    public float _gravity = 9.81f;
+    public Transform _groundCheck;
+    public float _groundDistance = 0.4f;
+    public LayerMask _groundMask;
+    Vector3 _velocity;
+    private bool _isGrounded;
+    private bool _isFacingRight = true;
 
-    Vector3 velocity;
-    private bool isGrounded;
-    private bool isFacingRight = true;
-
+    [Header("Checkpoint and Restart")]
     GameManager gameManager;
-    private void Awake() 
+
+    private void Awake() //initialize this instance
     {
         _rb = GetComponent<Rigidbody>();
         gameManager = FindObjectOfType<GameManager>();
@@ -33,37 +34,37 @@ public class PlayerController : MonoBehaviour
     private void Update() 
     {
         //check ground
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
 
-        if (isGrounded && velocity.y < 0)
+        if (_isGrounded && _velocity.y < 0)
         {
-            velocity.y = -2f;
+            _velocity.y = -2f;
         }
 
         //move player
-        float hmove = Input.GetAxis("Horizontal");
+        float _hmove = Input.GetAxis("Horizontal");
 
-        Vector3 moveRight = transform.right * hmove;
-        controller.Move(moveRight * moveSpeed * Time.deltaTime);
+        Vector3 _moveRight = transform.right * _hmove;
+        _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
 
         //face direction
-        if (isFacingRight && hmove < 0f || !isFacingRight && hmove > 0f)
+        if (_isFacingRight && _hmove < 0f || !_isFacingRight && _hmove > 0f)
         {
-            isFacingRight = !isFacingRight;
+            _isFacingRight = !_isFacingRight;
             Vector3 localScale = transform.localScale; //get transform
             localScale.x *= -1f; //flip
             transform.localScale = localScale; //update
         }
         
         //jump
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && _isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * -gravity);
+            _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
         }
 
-        velocity.y += -gravity * Time.deltaTime;
+        _velocity.y += -_gravity * Time.deltaTime;
 
-        controller.Move(velocity * Time.deltaTime);
+        _controller.Move(_velocity * Time.deltaTime);
 
     }
 
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
         //destroy player
         Debug.Log("oh no you died");
         this.gameObject.SetActive(false);
+        //reload from last checkpoint
         gameManager.DeathReload();
     }
 }

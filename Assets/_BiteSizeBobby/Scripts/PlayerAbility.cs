@@ -46,17 +46,17 @@ public class PlayerAbility : MonoBehaviour
         //_shieldText.enabled = false;
     }
 
-    private void ShieldActivated(bool activeState)
+    private void ShieldActivated(bool _activeState)
     {
-        playerStats._invincibility = activeState;
-        _shield.enabled = activeState;
+        playerStats._invincibility = _activeState;
+        _shield.enabled = _activeState;
         Debug.Log("shield activated");
     }
 
-    private void ShieldDeactivated(bool activeState)
+    private void ShieldDeactivated(bool _activeState)
     {
-        playerStats._invincibility = activeState;
-        _shield.enabled = activeState;
+        playerStats._invincibility = _activeState;
+        _shield.enabled = _activeState;
         Debug.Log("shield deactivated");
     }
 
