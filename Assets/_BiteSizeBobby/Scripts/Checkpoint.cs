@@ -22,6 +22,7 @@ public class Checkpoint : MonoBehaviour
         if (playerCharacter != null)
         {
             gameManager._lastCheckpoint = this.transform.position;
+            gameManager.UpdateObjective("Checkpoint Reached!", 2f);
             if (_soundCheckpoint != null) { _soundCheckpoint.Play(); }
             _collider.enabled = false; //disable this checkpoint after reaching it
             Debug.Log("checkpoint");

@@ -37,7 +37,7 @@ public class CollectibleCoin : MonoBehaviour
 
             gameManager.AddScore(_scoreAmount);
             gameManager.AddCoins(_coinAmount);
-
+            
             Destroy(gameObject, 0.1f);
         }
     }

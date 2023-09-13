@@ -20,11 +20,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _restartDelay = 2f;
     public Vector3 _lastCheckpoint;
 
+    
+    [Header("Objectives Settings")]
+    [Tooltip("Text display to inform player what to do and info about item use")]
+    [SerializeField] Text _objectivesText = null;
+
     [Header("Sound Settings")]
     [SerializeField] AudioSource _soundReload;
     
     private PlayerController playerController;
     private PlayerStats playerStats;
+    private Image _objImage;
 
     private void Awake() //initialize this instance
     {
@@ -41,6 +47,9 @@ public class GameManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         playerStats = FindObjectOfType<PlayerStats>();
         _soundReload = GetComponent<AudioSource>();
+        _objImage = _objectivesText.GetComponentInParent<Image>();
+        _objectivesText.enabled = false;
+        _objImage.enabled = false;
     }
     public void Update()
     {
@@ -51,6 +60,25 @@ public class GameManager : MonoBehaviour
         {
             if (_soundReload != null) { _soundReload.Play(); }
             RestartLevel();
+        }
+    }
+
+    public void UpdateObjective(string objectiveInfo, float objectiveDelay) //require input
+    {
+        _objectivesText.enabled = true; //enable objective text
+        _objImage.enabled = true; //enable background image
+
+        StartCoroutine(ObjectiveSequence()); //start timer
+
+        IEnumerator ObjectiveSequence()
+        {
+            //display objective
+            if (_objectivesText != null) { _objectivesText.text = objectiveInfo; }
+
+            //wait for seconds before deleting
+            yield return new WaitForSeconds(objectiveDelay);
+            _objectivesText.enabled = false; //disable objective text
+            _objImage.enabled = false;
         }
     }
 

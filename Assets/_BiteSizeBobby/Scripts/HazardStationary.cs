@@ -23,8 +23,7 @@ public class HazardStationary : MonoBehaviour
         _ambientHazard = GetComponent<AudioSource>();
         _soundDamage = GetComponent<AudioSource>();
     }
-
-    private void Update() 
+    private void Start() 
     {
         if (_ambientHazard != null) { _ambientHazard.Play(); }
     }

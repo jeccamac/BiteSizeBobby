@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -27,7 +28,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource _soundJump;
     [SerializeField] AudioSource _soundDeath;
 
-    [Header("Checkpoint and Restart")]
     GameManager gameManager;
 
     private void Awake() //initialize this instance

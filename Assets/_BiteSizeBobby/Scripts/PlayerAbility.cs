@@ -12,13 +12,16 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField] AudioSource _soundShield = null;
     public bool _speedActive = false;
     public bool _shieldActive = false;
-    PlayerStats playerStats;
+
+    private PlayerStats playerStats;
+    private GameManager gameManager;
 
     private void Start() 
     {
+        gameManager = FindObjectOfType<GameManager>();
+        playerStats = GetComponent<PlayerStats>();
         _soundShield = GetComponent<AudioSource>();
         _shield.enabled = false;
-        playerStats = GetComponent<PlayerStats>();
     }
 
     public void ActivateShield()
@@ -31,6 +34,7 @@ public class PlayerAbility : MonoBehaviour
     {
         _shieldActive = true;
         if (_shieldText != null) { _shieldText.enabled = true; }
+        gameManager.UpdateObjective("Shield Activated for " + _shieldDuration + " seconds", _shieldDuration);
         Debug.Log("start shield timer");
         ShieldActivated(true);
 
@@ -38,6 +42,7 @@ public class PlayerAbility : MonoBehaviour
         yield return new WaitForSeconds(_shieldDuration);
 
         //then reset
+        gameManager.UpdateObjective("Shield Deactivated", 1f);
         Debug.Log("end shield timer");
         ShieldDeactivated(false);
         
