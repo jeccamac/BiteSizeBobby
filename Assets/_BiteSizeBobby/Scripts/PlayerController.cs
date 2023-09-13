@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Settings")]
-    [SerializeField] float _moveSpeed = 12f;
-    [SerializeField] float _jumpHeight = 5f;
+    [SerializeField] public float _moveSpeed = 12f;
+    [SerializeField] public float _jumpHeight = 5f;
     private Rigidbody _rb = null;
     public CharacterController _controller;
 

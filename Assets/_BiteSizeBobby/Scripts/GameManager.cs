@@ -116,7 +116,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(DeathSequence());
 
         IEnumerator DeathSequence()
-        {            
+        {
+            //screen fade animation?
+                       
             //wait for seconds before restarting
             yield return new WaitForSeconds(_restartDelay);
             
@@ -124,7 +126,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("load from last checkpoint");
             if (_soundReload != null) { _soundReload.Play(); }
             playerController.transform.position = _lastCheckpoint; //load from last checkpoint
-            playerStats.AddHealth(3);//reset health stats
+            playerStats._health = 3;//reset health stats
             playerController.gameObject.SetActive(true); //load player character
             //RestartLevel();
         }
