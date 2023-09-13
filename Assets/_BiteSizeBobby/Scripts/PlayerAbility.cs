@@ -7,16 +7,16 @@ public class PlayerAbility : MonoBehaviour
 {
     [Header("Ability Settings")]
     [SerializeField] float _shieldDuration = 5f;
-    //[SerializeField] Text _shieldText = null;
+    [SerializeField] Text _shieldText = null;
     [SerializeField] MeshRenderer _shield;
-    //[SerializeField] AudioSource _soundShield = null;
+    [SerializeField] AudioSource _soundShield = null;
     public bool _speedActive = false;
     public bool _shieldActive = false;
     PlayerStats playerStats;
 
-    private void Awake() 
+    private void Start() 
     {
-        //_soundShield = GetComponent<AudioSource>();
+        _soundShield = GetComponent<AudioSource>();
         _shield.enabled = false;
         playerStats = GetComponent<PlayerStats>();
     }
@@ -24,13 +24,13 @@ public class PlayerAbility : MonoBehaviour
     public void ActivateShield()
     {
         StartCoroutine(ShieldSequence());
-        //_soundShield.Play();
+        if (_soundShield != null) { _soundShield.Play(); }
     }
 
     IEnumerator ShieldSequence()
     {
         _shieldActive = true;
-        //_shieldText.enabled = true;
+        if (_shieldText != null) { _shieldText.enabled = true; }
         Debug.Log("start shield timer");
         ShieldActivated(true);
 
@@ -43,7 +43,7 @@ public class PlayerAbility : MonoBehaviour
         
         //set boolean to release lockout
         _shieldActive = false;
-        //_shieldText.enabled = false;
+        if (_shieldText != null) { _shieldText.enabled = false; }
     }
 
     private void ShieldActivated(bool _activeState)

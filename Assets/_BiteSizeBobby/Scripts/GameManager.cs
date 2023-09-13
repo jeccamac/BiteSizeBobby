@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
-    [Header("Point Settings")]
+    [Header("Scoreboard Settings")]
     [SerializeField] Text _scoreText = null;
     [SerializeField] Text _coinText = null;
     public int _score = 0;
@@ -18,12 +18,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Restart Settings")]
     [SerializeField] float _restartDelay = 2f;
-
     public Vector3 _lastCheckpoint;
+
+    [Header("Sound Settings")]
+    [SerializeField] AudioSource _soundReload;
+    
     private PlayerController playerController;
     private PlayerStats playerStats;
 
-    private void Awake() 
+    private void Awake() //initialize this instance
     {
         if (instance == null)
         {
@@ -31,8 +34,13 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(instance); //don't destroy itself in btwn scenes
         } else { Destroy(gameObject); } //don't make multiple game managers in the scene
 
+    }
+
+    private void Start() //initialize other intances when this instance is done initializing
+    {
         playerController = FindObjectOfType<PlayerController>();
         playerStats = FindObjectOfType<PlayerStats>();
+        _soundReload = GetComponent<AudioSource>();
     }
     public void Update()
     {
@@ -41,18 +49,19 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Backspace)) //pressing backspace is temporary, just for testing. Add actual pause menu in future
         {
+            if (_soundReload != null) { _soundReload.Play(); }
             RestartLevel();
         }
     }
 
     public void UpdateScore()
     {
-        _scoreText.text = "Score: " + _score;
+        if (_scoreText != null) { _scoreText.text = "Score: " + _score; }
     }
 
     public void UpdateCollectible()
     {
-        _coinText.text = $"{_coins}";
+    if (_coinText != null) { _coinText.text = $"{_coins}"; }
     }
 
     public void AddScore(int addScore)
@@ -85,6 +94,7 @@ public class GameManager : MonoBehaviour
             
             //reload level with some stats reset
             Debug.Log("load from last checkpoint");
+            if (_soundReload != null) { _soundReload.Play(); }
             playerController.transform.position = _lastCheckpoint; //load from last checkpoint
             playerStats.AddHealth(3);//reset health stats
             playerController.gameObject.SetActive(true); //load player character

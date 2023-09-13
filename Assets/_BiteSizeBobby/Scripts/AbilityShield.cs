@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AbilityShield : MonoBehaviour
 {
-    private AudioSource _soundItemUse;
+    private AudioSource _sndItemUse;
 
     private void Awake()
     {
-        _soundItemUse = GetComponent<AudioSource>();
+        _sndItemUse = GetComponent<AudioSource>();
     }
     private void OnTriggerEnter(Collider other) 
     {
@@ -18,8 +18,7 @@ public class AbilityShield : MonoBehaviour
         {
             //reference coroutine for player ability
             playerAbility.ActivateShield();
-            
-            //_soundItemUse.Play();
+            if (_sndItemUse != null) { _sndItemUse.Play(); }
 
             //destroy this object
             Destroy(gameObject, 0.1f);

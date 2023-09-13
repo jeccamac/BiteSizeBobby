@@ -22,13 +22,21 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded;
     private bool _isFacingRight = true;
 
+    [Header("Sound Settings")]
+    [SerializeField] AudioSource _soundMove;
+    [SerializeField] AudioSource _soundJump;
+    [SerializeField] AudioSource _soundDeath;
+
     [Header("Checkpoint and Restart")]
     GameManager gameManager;
 
     private void Awake() //initialize this instance
     {
-        _rb = GetComponent<Rigidbody>();
         gameManager = FindObjectOfType<GameManager>();
+        _rb = GetComponent<Rigidbody>();
+        _soundMove = GetComponent<AudioSource>();
+        _soundJump = GetComponent<AudioSource>();
+        _soundDeath = GetComponent<AudioSource>();
     }
 
     private void Update() 
@@ -36,7 +44,7 @@ public class PlayerController : MonoBehaviour
         //check ground
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
 
-        if (_isGrounded && _velocity.y < 0)
+        if (_isGrounded && _velocity.y < 0) //if on the ground, stick player to ground unless jumping
         {
             _velocity.y = -2f;
         }
@@ -60,18 +68,19 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && _isGrounded)
         {
             _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
+            if (_soundJump != null) { _soundJump.Play(); }
         }
 
         _velocity.y += -_gravity * Time.deltaTime;
-
         _controller.Move(_velocity * Time.deltaTime);
-
+        if (_soundMove != null) { _soundMove.Play(); }
     }
 
     public void OnDeath()
     {
         //destroy player
         Debug.Log("oh no you died");
+        if (_soundDeath != null) { _soundDeath.Play(); }
         this.gameObject.SetActive(false);
         //reload from last checkpoint
         gameManager.DeathReload();

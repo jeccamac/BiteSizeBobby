@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class CollectibleCoin : MonoBehaviour
 {
-    [SerializeField] AudioSource _sndCollect = null;
+    [Header("Collectible Settings")]
     [SerializeField] float _rotateSpeed = 0.5f;
     public int _coinAmount = 1;
     public int _scoreAmount = 100;
 
+    [Header("Sound Settings")]
+    [SerializeField] AudioSource _ambientCoin = null;
+    [SerializeField] AudioSource _soundCollect = null;
+    
     private GameManager gameManager;
 
     private void Start() 
     {
-        _sndCollect = GetComponent<AudioSource>();
         gameManager = FindObjectOfType<GameManager>();
+        _ambientCoin = GetComponent<AudioSource>();
+        _soundCollect = GetComponent<AudioSource>();
     }
     private void Update() 
     {
         transform.Rotate(0, _rotateSpeed, 0);
+        if (_ambientCoin != null ) { _ambientCoin.Play(); }
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -27,7 +33,7 @@ public class CollectibleCoin : MonoBehaviour
 
         if (playerCharacter != null)
         {
-            //_sndCollect.Play();
+            if (_soundCollect != null) { _soundCollect.Play(); }
 
             gameManager.AddScore(_scoreAmount);
             gameManager.AddCoins(_coinAmount);
