@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class PlayerStats : MonoBehaviour
 {
     [Header("Health Stats")]
-    [SerializeField] int _health = 3;
+    [SerializeField] public int _health = 3;
     [SerializeField] int _maxHealth = 3;
     public bool _invincibility = false;
 
