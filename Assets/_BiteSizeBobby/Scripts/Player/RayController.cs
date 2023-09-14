@@ -36,7 +36,7 @@ public class RayController : MonoBehaviour
         {
             ShootPellet();
             if (_soundRay != null) { _soundRay.Play(); }
-            Debug.Log("pressing shoot button");
+            //Debug.Log("shooting");
         }
 
         _cooldownTimer += Time.deltaTime; //increment timer everyframe
