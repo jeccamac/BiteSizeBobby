@@ -46,9 +46,4 @@ public class ShotPellet : MonoBehaviour
         _shotHit = false;
         _shotCollider.enabled = true;
     }
-
-    private void DeactivatePellet()
-    {
-        gameObject.SetActive(false);
-    }
 }
