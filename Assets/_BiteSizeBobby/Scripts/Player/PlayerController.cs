@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Player Settings")]
+    [Header("Movement")]
     [SerializeField] public float _moveSpeed = 12f;
     [SerializeField] public float _jumpHeight = 5f;
     private Rigidbody _rb = null;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     Vector3 _velocity;
     private bool _isGrounded;
     private bool _isFacingRight = true;
+    public bool _canShoot = false;
 
     [Header("Sound Settings")]
     [SerializeField] AudioSource _soundMove;
@@ -40,6 +42,12 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update() 
+    {
+        MovePlayer();
+        Jump();
+    }
+
+    private void MovePlayer()
     {
         //check ground
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
@@ -63,7 +71,13 @@ public class PlayerController : MonoBehaviour
             localScale.x *= -1f; //flip
             transform.localScale = localScale; //update
         }
-        
+
+        //can shoot if player is NOT moving and is not jumping
+        if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+    }
+
+    private void Jump()
+    {
         //jump
         if (Input.GetButtonDown("Jump") && _isGrounded)
         {
@@ -75,7 +89,6 @@ public class PlayerController : MonoBehaviour
         _controller.Move(_velocity * Time.deltaTime);
         if (_soundMove != null) { _soundMove.Play(); }
     }
-
     public void OnDeath()
     {
         //destroy player
