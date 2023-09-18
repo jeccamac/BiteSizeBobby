@@ -63,7 +63,10 @@ public class PlayerController : MonoBehaviour
             _controller.Move(_moveLeft * _moveSpeed * Time.deltaTime);
         }
         
-        Jump();
+        //if in air, affected by gravity
+        _velocity.y -= _gravity * Time.deltaTime;
+        _controller.Move(_velocity * Time.deltaTime);
+        //Jump();
     }
 
     public void MoveRight()
@@ -73,7 +76,7 @@ public class PlayerController : MonoBehaviour
         _hmove = 1;
         // Vector3 _moveRight = transform.right * _hmove;
         // _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
-
+        if (_soundMove != null) { _soundMove.Play(); }
         //face direction
         if (!_isFacingRight && _hmove > 0f)
         {
@@ -92,7 +95,7 @@ public class PlayerController : MonoBehaviour
         _isMoving = true;
         //move player
         _hmove = -1;
-        
+        if (_soundMove != null) { _soundMove.Play(); }
         //face direction
         if (_isFacingRight && _hmove < 0f)
         {
@@ -108,17 +111,13 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        //jump
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        if (_isGrounded)
         {
             _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
-            if (_soundJump != null) { _soundJump.Play(); }
+        if (_soundJump != null) { _soundJump.Play(); }
         }
-
-        _velocity.y += -_gravity * Time.deltaTime;
-        _controller.Move(_velocity * Time.deltaTime);
-        if (_soundMove != null) { _soundMove.Play(); }
     }
+
     public void OnDeath()
     {
         //destroy player
