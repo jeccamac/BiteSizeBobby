@@ -4928,15 +4928,35 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1763197913}
     m_Modifications:
+    - target: {fileID: 953703809174431123, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459884471001565133, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2602789165053646594, guid: 80124c7ceab2bc144a694138c616321b,
         type: 3}
       propertyPath: _shotLifetime
-      value: 1
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344944821374279991, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4554798999763839806, guid: 80124c7ceab2bc144a694138c616321b,
         type: 3}
       propertyPath: m_Name
       value: Ammo_Pellets
+      objectReference: {fileID: 0}
+    - target: {fileID: 5042658240407556980, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5059256348877001504, guid: 80124c7ceab2bc144a694138c616321b,
         type: 3}
@@ -4987,6 +5007,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457070181064725222, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138621042206480361, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7295869878944364691, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7768899638106668878, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8554753100874123549, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

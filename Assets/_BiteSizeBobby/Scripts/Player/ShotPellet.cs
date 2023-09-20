@@ -10,7 +10,7 @@ public class ShotPellet : MonoBehaviour
     private float _shotDirection;
     private bool _shotHit;
     [Tooltip("How many seconds projectile is active before deactivating")]
-    [SerializeField] private float _shotLifetime = 1f;
+    [SerializeField] private float _shotLifetime = 0.5f;
     private float _lifetimeTimer;
     private Collider _shotCollider;
 

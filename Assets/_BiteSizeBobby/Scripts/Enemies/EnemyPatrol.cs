@@ -46,6 +46,7 @@ public class EnemyPatrol : MonoBehaviour
         if (_enemyHealthCurrent <= 0)
         {
             Destroy(gameObject, 0.2f);
+            Debug.Log("enemy killed");
         }
     }
 
