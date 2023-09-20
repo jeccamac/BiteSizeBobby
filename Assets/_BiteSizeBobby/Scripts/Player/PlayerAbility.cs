@@ -32,8 +32,10 @@ public class PlayerAbility : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         playerController = GetComponent<PlayerController>();
         playerStats = GetComponent<PlayerStats>();
+
         _soundShield = GetComponent<AudioSource>();
         _soundSpeed = GetComponent<AudioSource>();
+
         _shield.enabled = false; //visual feedback for shield
         _boosters.enabled = false; //visual feedback for speed
     }

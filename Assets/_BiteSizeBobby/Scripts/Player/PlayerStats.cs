@@ -21,6 +21,14 @@ public class PlayerStats : MonoBehaviour
     public ImageAnimation _healthIcon3;
     public ImageAnimation _healthIcon3_empty;
 
+    [Header("Sound Settings")]
+    [SerializeField] AudioSource _soundDamage = null;
+
+
+    private void Start() 
+    {
+        _soundDamage = GetComponent<AudioSource>();
+    }
     public void Update() 
     {
         UpdateHealth();
@@ -28,7 +36,7 @@ public class PlayerStats : MonoBehaviour
 
     public void UpdateHealth()
     {
-        //get health img components
+        //get health img components and reflect damage
         switch (_health)
         {
             case 0:
@@ -80,6 +88,7 @@ public class PlayerStats : MonoBehaviour
     public void TakeDamage(int damageAmt)
     {
         _health -= damageAmt;
+        if (_soundDamage != null) { _soundDamage.Play(); }
         UpdateHealth();
 
         if (_health == 0)

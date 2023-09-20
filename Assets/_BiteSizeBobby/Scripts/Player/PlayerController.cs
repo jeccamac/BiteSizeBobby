@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] public float _moveSpeed = 12f;
     [SerializeField] public float _jumpHeight = 5f;
+    private float _hmove;
     private Rigidbody _rb = null;
     public CharacterController _controller;
 
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask _groundMask;
     Vector3 _velocity;
     private bool _isGrounded;
+    private bool _isMoving = false;
     private bool _isFacingRight = true;
     public bool _canShoot = false;
 
@@ -39,15 +41,10 @@ public class PlayerController : MonoBehaviour
         _soundMove = GetComponent<AudioSource>();
         _soundJump = GetComponent<AudioSource>();
         _soundDeath = GetComponent<AudioSource>();
+
     }
 
     private void Update() 
-    {
-        MovePlayer();
-        Jump();
-    }
-
-    private void MovePlayer()
     {
         //check ground
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
@@ -57,14 +54,31 @@ public class PlayerController : MonoBehaviour
             _velocity.y = -2f;
         }
 
+        //MoveRight();
+        //MoveLeft();
+
+        if (_isMoving == true)
+        {
+            Vector3 _moveLeft = transform.right * _hmove;
+            _controller.Move(_moveLeft * _moveSpeed * Time.deltaTime);
+        }
+        
+        //if in air, affected by gravity
+        _velocity.y -= _gravity * Time.deltaTime;
+        _controller.Move(_velocity * Time.deltaTime);
+        //Jump();
+    }
+
+    public void MoveRight()
+    {
+        _isMoving = true;
         //move player
-        float _hmove = Input.GetAxis("Horizontal");
-
-        Vector3 _moveRight = transform.right * _hmove;
-        _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
-
+        _hmove = 1;
+        // Vector3 _moveRight = transform.right * _hmove;
+        // _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
+        if (_soundMove != null) { _soundMove.Play(); }
         //face direction
-        if (_isFacingRight && _hmove < 0f || !_isFacingRight && _hmove > 0f)
+        if (!_isFacingRight && _hmove > 0f)
         {
             _isFacingRight = !_isFacingRight;
             Vector3 localScale = transform.localScale; //get transform
@@ -76,19 +90,34 @@ public class PlayerController : MonoBehaviour
         if ( _isGrounded && _hmove == 0) { _canShoot = true; }
     }
 
-    private void Jump()
+    public void MoveLeft()
     {
-        //jump
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        _isMoving = true;
+        //move player
+        _hmove = -1;
+        if (_soundMove != null) { _soundMove.Play(); }
+        //face direction
+        if (_isFacingRight && _hmove < 0f)
         {
-            _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
-            if (_soundJump != null) { _soundJump.Play(); }
+            _isFacingRight = !_isFacingRight;
+            Vector3 localScale = transform.localScale; //get transform
+            localScale.x *= -1f; //flip
+            transform.localScale = localScale; //update
         }
 
-        _velocity.y += -_gravity * Time.deltaTime;
-        _controller.Move(_velocity * Time.deltaTime);
-        if (_soundMove != null) { _soundMove.Play(); }
+        //can shoot if player is NOT moving and is not jumping
+        if ( _isGrounded && _hmove == 0) { _canShoot = true; }
     }
+
+    public void Jump()
+    {
+        if (_isGrounded)
+        {
+            _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
+        if (_soundJump != null) { _soundJump.Play(); }
+        }
+    }
+
     public void OnDeath()
     {
         //destroy player

@@ -11,7 +11,6 @@ public class HazardStationary : MonoBehaviour
 
     [Header("Sound Settings")]
     [SerializeField] AudioSource _ambientHazard;
-    [SerializeField] AudioSource _soundDamage;
     
     private GameManager gameManager;
     private PlayerStats playerStats;
@@ -21,7 +20,6 @@ public class HazardStationary : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         playerStats = FindObjectOfType<PlayerStats>();
         _ambientHazard = GetComponent<AudioSource>();
-        _soundDamage = GetComponent<AudioSource>();
     }
     private void Start() 
     {
@@ -36,7 +34,6 @@ public class HazardStationary : MonoBehaviour
             if (playerStats._invincibility == false)
             {
                 playerStats.TakeDamage(_damageHit);
-                if (_soundDamage != null) { _soundDamage.Play(); }
                 gameManager.SubtractScore(_damageScore);
 
             } else { Debug.Log("invincible!"); }
