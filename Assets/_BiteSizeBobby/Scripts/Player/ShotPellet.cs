@@ -6,11 +6,11 @@ using UnityEngine;
 public class ShotPellet : MonoBehaviour
 {
     [SerializeField] private float _shotSpeed = 20f;
-    [SerializeField] private float _hitDelay = 0.2f; //how long until shot disappears
+    //[SerializeField] private float _hitDelay = 0.2f; //how long until shot disappears
     private float _shotDirection;
     private bool _shotHit;
     [Tooltip("How many seconds projectile is active before deactivating")]
-    [SerializeField] private float _shotLifetime = 5f;
+    [SerializeField] private float _shotLifetime = 1f;
     private float _lifetimeTimer;
     private Collider _shotCollider;
 
@@ -33,8 +33,15 @@ public class ShotPellet : MonoBehaviour
     {
         _shotHit = true;
         _shotCollider.enabled = false; //disable collider
+
+        EnemyPatrol enemy = other.gameObject.GetComponent<EnemyPatrol>();
+        if (enemy != null)
+        {
+            enemy.EnemyTakeDamage(1);
+            Debug.Log("hit enemy");
+            gameObject.SetActive(false);
+        }
         //visual feedback here for when shot hits something
-        Destroy(gameObject, _hitDelay);
     }
 
     public void SetDirection (float _direction) //fire left or right

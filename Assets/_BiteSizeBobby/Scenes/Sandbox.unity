@@ -1124,7 +1124,6 @@ GameObject:
   m_Component:
   - component: {fileID: 430871938}
   - component: {fileID: 430871940}
-  - component: {fileID: 430871939}
   m_Layer: 0
   m_Name: TestTerrain_Gums
   m_TagString: Untagged
@@ -1147,26 +1146,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2141324809}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!154 &430871939
-TerrainCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430871937}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 542675fb83694c240808b813e3f64ec8, type: 2}
-  m_EnableTreeColliders: 1
 --- !u!218 &430871940
 Terrain:
   m_ObjectHideFlags: 0
@@ -1614,6 +1593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 670456721}
   - component: {fileID: 670456723}
+  - component: {fileID: 670456724}
   - component: {fileID: 670456722}
   m_Layer: 0
   m_Name: Art Assets
@@ -1681,6 +1661,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &670456724
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670456720}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &677791484
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,7 +3309,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1430625937}
   - component: {fileID: 1430625939}
-  - component: {fileID: 1430625938}
   m_Layer: 0
   m_Name: TestTerrain_Teeth
   m_TagString: Untagged
@@ -3325,26 +3331,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2141324809}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!154 &1430625938
-TerrainCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1430625936}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: 19cb348e5366bf545bcfb16e595c2476, type: 2}
-  m_EnableTreeColliders: 1
 --- !u!218 &1430625939
 Terrain:
   m_ObjectHideFlags: 0
@@ -4942,6 +4928,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1763197913}
     m_Modifications:
+    - target: {fileID: 2602789165053646594, guid: 80124c7ceab2bc144a694138c616321b,
+        type: 3}
+      propertyPath: _shotLifetime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4554798999763839806, guid: 80124c7ceab2bc144a694138c616321b,
         type: 3}
       propertyPath: m_Name
