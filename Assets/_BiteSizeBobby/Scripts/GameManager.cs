@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
             playerController.transform.position = _lastCheckpoint; //load from last checkpoint
             playerStats._health = 3;//reset health stats
             playerController.gameObject.SetActive(true); //load player character
-            playerHasDied = false; //reset bool
+            playerHasDied = false; //reset death bool
             //RestartLevel();
         }
     }

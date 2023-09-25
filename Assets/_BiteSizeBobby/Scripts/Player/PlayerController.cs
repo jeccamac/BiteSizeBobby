@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask _groundMask;
     Vector3 _velocity;
     private bool _isGrounded;
-    private bool _isMoving = false;
+    public bool _isMoving = false;
     private bool _isFacingRight = true;
     public bool _canShoot = false;
 
@@ -87,34 +87,43 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
+    
     public void MoveRight()
     {
-        _isMoving = true;
-        //move player
-        _hmove = 1;
-        // Vector3 _moveRight = transform.right * _hmove;
-        // _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
-        if (_soundMove != null) { _soundMove.Play(); }
-        //face direction
-        if (!_isFacingRight && _hmove > 0f)
-        {
-            _isFacingRight = !_isFacingRight;
-            Vector3 localScale = transform.localScale; //get transform
-            localScale.x *= -1f; //flip
-            transform.localScale = localScale; //update
-        }
+        if (_isMoving == true)
+        {    
+            //move player
+            _hmove = 1;
 
-        //can shoot if player is NOT moving and is not jumping
-        if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+            // Vector3 _moveRight = transform.right * _hmove;
+            // _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
+
+            if (_soundMove != null) { _soundMove.Play(); }
+
+            //face direction
+            if (!_isFacingRight && _hmove > 0f)
+            {
+                _isFacingRight = !_isFacingRight;
+                Vector3 localScale = transform.localScale; //get transform
+                localScale.x *= -1f; //flip
+                transform.localScale = localScale; //update
+            }
+
+            //can shoot if player is NOT moving and is not jumping
+            if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+        } else { StopMoving(); }
+        
     }
 
     public void MoveLeft()
     {
         _isMoving = true;
+
         //move player
         _hmove = -1;
+
         if (_soundMove != null) { _soundMove.Play(); }
+
         //face direction
         if (_isFacingRight && _hmove < 0f)
         {
@@ -126,6 +135,12 @@ public class PlayerController : MonoBehaviour
 
         //can shoot if player is NOT moving and is not jumping
         if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+    }
+
+    public void StopMoving()
+    {
+        _isMoving = false;
+        _hmove = 0;
     }
 
     public void Jump()
