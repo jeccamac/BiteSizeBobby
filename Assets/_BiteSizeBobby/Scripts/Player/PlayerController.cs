@@ -117,24 +117,25 @@ public class PlayerController : MonoBehaviour
 
     public void MoveLeft()
     {
-        _isMoving = true;
+        if (_isMoving == true)
+        {    
+            //move player
+            _hmove = -1;
 
-        //move player
-        _hmove = -1;
+            if (_soundMove != null) { _soundMove.Play(); }
 
-        if (_soundMove != null) { _soundMove.Play(); }
+            //face direction
+            if (_isFacingRight && _hmove < 0f)
+            {
+                _isFacingRight = !_isFacingRight;
+                Vector3 localScale = transform.localScale; //get transform
+                localScale.x *= -1f; //flip
+                transform.localScale = localScale; //update
+            }
 
-        //face direction
-        if (_isFacingRight && _hmove < 0f)
-        {
-            _isFacingRight = !_isFacingRight;
-            Vector3 localScale = transform.localScale; //get transform
-            localScale.x *= -1f; //flip
-            transform.localScale = localScale; //update
-        }
-
-        //can shoot if player is NOT moving and is not jumping
-        if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+            //can shoot if player is NOT moving and is not jumping
+            if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+        } else { StopMoving(); }
     }
 
     public void StopMoving()
