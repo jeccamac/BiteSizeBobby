@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     
     private PlayerController playerController;
     private PlayerStats playerStats;
+    private PlayerAbility playerAbility;
+    public bool playerHasDied = false;
     private Image _objImage;
 
     private void Awake() //initialize this instance
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
         playerController = FindObjectOfType<PlayerController>();
         playerStats = FindObjectOfType<PlayerStats>();
+        playerAbility = FindObjectOfType<PlayerAbility>();
         _soundReload = GetComponent<AudioSource>();
         _objImage = _objectivesText.GetComponentInParent<Image>();
         _objectivesText.enabled = false;
@@ -55,6 +58,11 @@ public class GameManager : MonoBehaviour
     {
         UpdateScore();
         UpdateCollectible();
+
+        if (playerHasDied == true)
+        {
+            playerAbility.SpeedDeactivated(false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Backspace)) //pressing backspace is temporary, just for testing. Add actual pause menu in future
         {
@@ -113,6 +121,8 @@ public class GameManager : MonoBehaviour
 
     public void DeathReload()
     {
+        playerHasDied = true;
+
         StartCoroutine(DeathSequence());
 
         IEnumerator DeathSequence()
@@ -128,6 +138,7 @@ public class GameManager : MonoBehaviour
             playerController.transform.position = _lastCheckpoint; //load from last checkpoint
             playerStats._health = 3;//reset health stats
             playerController.gameObject.SetActive(true); //load player character
+            playerHasDied = false; //reset bool
             //RestartLevel();
         }
     }
