@@ -6,14 +6,17 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] public float _moveSpeed = 12f;
     [SerializeField] public float _jumpHeight = 5f;
+    [SerializeField] private float _jumpBuffer = 0.1f;
     private float _hmove;
-    private Rigidbody _rb = null;
+    private float _lastJumpPressed;
+    private bool _bufferedJump => _isGrounded && _lastJumpPressed + _jumpBuffer > Time.time;
+    //private Rigidbody _rb = null;
     public CharacterController _controller;
 
     [Header("Ground Check")]
@@ -23,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask _groundMask;
     Vector3 _velocity;
     private bool _isGrounded;
-    private bool _isMoving = false;
+    public bool _isMoving = false;
     private bool _isFacingRight = true;
     public bool _canShoot = false;
 
@@ -37,7 +40,7 @@ public class PlayerController : MonoBehaviour
     private void Awake() //initialize this instance
     {
         gameManager = FindObjectOfType<GameManager>();
-        _rb = GetComponent<Rigidbody>();
+        //_rb = GetComponent<Rigidbody>();
         _soundMove = GetComponent<AudioSource>();
         _soundJump = GetComponent<AudioSource>();
         _soundDeath = GetComponent<AudioSource>();
@@ -46,16 +49,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update() 
     {
-        //check ground
-        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
+        // //check ground
+        // _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
+        CollisionCheck();
 
-        if (_isGrounded && _velocity.y < 0) //if on the ground, stick player to ground unless jumping
-        {
-            _velocity.y = -2f;
-        }
+        // if (_isGrounded && _velocity.y < 0) //if on the ground, stick player to ground unless jumping
+        // {
+        //     _velocity.y = -2f;
+        // }
+        GravityCheck();
 
-        //MoveRight();
-        //MoveLeft();
 
         if (_isMoving == true)
         {
@@ -69,52 +72,88 @@ public class PlayerController : MonoBehaviour
         //Jump();
     }
 
-    public void MoveRight()
+    private void CollisionCheck()
     {
-        _isMoving = true;
-        //move player
-        _hmove = 1;
-        // Vector3 _moveRight = transform.right * _hmove;
-        // _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
-        if (_soundMove != null) { _soundMove.Play(); }
-        //face direction
-        if (!_isFacingRight && _hmove > 0f)
+        //check ground
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
+    }
+
+    private void GravityCheck()
+    {
+
+        if (_isGrounded && _velocity.y < 0) //if on the ground, stick player to ground unless jumping
         {
-            _isFacingRight = !_isFacingRight;
-            Vector3 localScale = transform.localScale; //get transform
-            localScale.x *= -1f; //flip
-            transform.localScale = localScale; //update
+            _velocity.y = -2f;
         }
 
-        //can shoot if player is NOT moving and is not jumping
-        if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+    }
+    
+    public void MoveRight()
+    {
+        if (_isMoving == true)
+        {    
+            //move player
+            _hmove = 1;
+
+            // Vector3 _moveRight = transform.right * _hmove;
+            // _controller.Move(_moveRight * _moveSpeed * Time.deltaTime);
+
+            if (_soundMove != null) { _soundMove.Play(); }
+
+            //face direction
+            if (!_isFacingRight && _hmove > 0f)
+            {
+                _isFacingRight = !_isFacingRight;
+                Vector3 localScale = transform.localScale; //get transform
+                localScale.x *= -1f; //flip
+                transform.localScale = localScale; //update
+            }
+
+            //can shoot if player is NOT moving and is not jumping
+            if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+        } else { StopMoving(); }
+        
     }
 
     public void MoveLeft()
     {
-        _isMoving = true;
-        //move player
-        _hmove = -1;
-        if (_soundMove != null) { _soundMove.Play(); }
-        //face direction
-        if (_isFacingRight && _hmove < 0f)
-        {
-            _isFacingRight = !_isFacingRight;
-            Vector3 localScale = transform.localScale; //get transform
-            localScale.x *= -1f; //flip
-            transform.localScale = localScale; //update
-        }
+        if (_isMoving == true)
+        {    
+            //move player
+            _hmove = -1;
 
-        //can shoot if player is NOT moving and is not jumping
-        if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+            if (_soundMove != null) { _soundMove.Play(); }
+
+            //face direction
+            if (_isFacingRight && _hmove < 0f)
+            {
+                _isFacingRight = !_isFacingRight;
+                Vector3 localScale = transform.localScale; //get transform
+                localScale.x *= -1f; //flip
+                transform.localScale = localScale; //update
+            }
+
+            //can shoot if player is NOT moving and is not jumping
+            if ( _isGrounded && _hmove == 0) { _canShoot = true; }
+        } else { StopMoving(); }
+    }
+
+    public void StopMoving()
+    {
+        _isMoving = false;
+        _hmove = 0;
     }
 
     public void Jump()
     {
-        if (_isGrounded)
+        _lastJumpPressed = Time.time;
+
+        if (_isGrounded || _bufferedJump)
         {
-            _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
-        if (_soundJump != null) { _soundJump.Play(); }
+            //_velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
+            _velocity.y = _jumpHeight;
+            
+            if (_soundJump != null) { _soundJump.Play(); }
         }
     }
 

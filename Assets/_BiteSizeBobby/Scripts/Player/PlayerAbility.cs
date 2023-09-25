@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,12 +27,13 @@ public class PlayerAbility : MonoBehaviour
     private PlayerController playerController;
     private PlayerStats playerStats;
     private GameManager gameManager;
-
+    
     private void Start() 
     {
         gameManager = FindObjectOfType<GameManager>();
         playerController = GetComponent<PlayerController>();
         playerStats = GetComponent<PlayerStats>();
+
 
         _soundShield = GetComponent<AudioSource>();
         _soundSpeed = GetComponent<AudioSource>();
@@ -97,7 +99,7 @@ public class PlayerAbility : MonoBehaviour
         Debug.Log("shield activated");
     }
 
-    private void ShieldDeactivated(bool _activeState)
+    public void ShieldDeactivated(bool _activeState)
     {
         playerStats._invincibility = _activeState;
         if (_shield != null) { _shield.enabled = _activeState; }
@@ -111,7 +113,7 @@ public class PlayerAbility : MonoBehaviour
         Debug.Log("movespeed: " + playerController._moveSpeed);
     }
 
-    private void SpeedDeactivated(bool activeState)
+    public void SpeedDeactivated(bool activeState)
     {
         playerController._moveSpeed = 12f; //reset
         if (_boosters != null) { _boosters.enabled = activeState; }
