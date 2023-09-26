@@ -150,8 +150,7 @@ public class PlayerController : MonoBehaviour
 
         if (_isGrounded || _bufferedJump)
         {
-            //_velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
-            _velocity.y = _jumpHeight;
+            _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * -_gravity);
             
             if (_soundJump != null) { _soundJump.Play(); }
         }
