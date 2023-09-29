@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_BiteSizeBobby/Scenes/Sandbox.unity
     guid: bf82409eca7c43245875c04bbdf8e6a3
+  - enabled: 1
+    path: Assets/_BiteSizeBobby/Scenes/MainMenu.unity
+    guid: dcc2e862c56228647b9e3604cf7d55dc
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: 3eb2bb5211ee9784c8d935ef0159dbb5, type: 2}
