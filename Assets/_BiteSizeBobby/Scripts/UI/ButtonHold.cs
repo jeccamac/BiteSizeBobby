@@ -16,7 +16,7 @@ public class ButtonHold : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("button is pressed");
+        //Debug.Log("button is pressed");
         isButtonDown = true;
         player._isMoving = true;
         invokeMethod1.Invoke();
@@ -24,7 +24,7 @@ public class ButtonHold : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerUp(PointerEventData data)
     {
-        Debug.Log("no button input");
+        //Debug.Log("no button input");
         isButtonDown = false;
         player._isMoving = false;
     }
