@@ -60,11 +60,24 @@ public class PlayerController : MonoBehaviour
         GravityCheck();
 
 
-        if (_isMoving == true)
+        //WASD movement
+        _hmove = Input.GetAxis("Horizontal");
+        if (_hmove != 0)
         {
             Vector3 _moveLeft = transform.right * _hmove;
             _controller.Move(_moveLeft * _moveSpeed * Time.deltaTime);
         }
+        
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
+
+        // if (_isMoving == true)
+        // {
+        //     Vector3 _moveLeft = transform.right * _hmove;
+        //     _controller.Move(_moveLeft * _moveSpeed * Time.deltaTime);
+        // }
         
         //if in air, affected by gravity
         _velocity.y -= _gravity * Time.deltaTime;
