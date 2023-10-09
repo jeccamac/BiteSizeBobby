@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlatformMovement : MonoBehaviour
 {
     [Header("Platform Settings")]
-    [SerializeField] Transform _moveToPoint;
     [SerializeField] private Transform _startPoint;
+    [SerializeField] private Transform _moveToPoint;
     private float _elapsedTime;
     [Tooltip("Move time in seconds")]
     [SerializeField] private float _moveTime = 1f;
@@ -26,6 +28,7 @@ public class PlatformMovement : MonoBehaviour
         {
             percentComplete = _elapsedTime / _moveTime * Time.deltaTime; //calculate percentage of duration elapsed
             transform.position = Vector3.Lerp(_startPoint.position, _moveToPoint.position, moveCurve.Evaluate(percentComplete));
+            transform.rotation = Quaternion.Lerp(_startPoint.rotation, _moveToPoint.rotation, moveCurve.Evaluate(percentComplete));
         }
     }
     private void OnTriggerEnter(Collider other) 
@@ -33,14 +36,15 @@ public class PlatformMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Player")) 
         {
             onPlatform = true;
-            other.transform.SetParent(transform); //set player as child of platform so that it moves with platform position & rotation
+            other.transform.SetParent(transform, true); //set player as child of platform so that it moves with platform position
         }
         
     }
 
     private void OnTriggerExit(Collider other) 
     {
-        onPlatform = false;
+        //onPlatform = false;
         other.transform.SetParent(null); //detach player as a child component
+        other.transform.rotation = Quaternion.identity;
     }
 }

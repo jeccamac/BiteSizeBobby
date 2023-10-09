@@ -49,27 +49,33 @@ public class PlayerController : MonoBehaviour
 
     private void Update() 
     {
-        // //check ground
-        // _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
         CollisionCheck();
-
-        // if (_isGrounded && _velocity.y < 0) //if on the ground, stick player to ground unless jumping
-        // {
-        //     _velocity.y = -2f;
-        // }
         GravityCheck();
 
-
-        if (_isMoving == true)
+        //WASD movement, only for testing on pc, delete later
+        _hmove = Input.GetAxis("Horizontal");
+        if (_hmove != 0)
         {
             Vector3 _moveLeft = transform.right * _hmove;
             _controller.Move(_moveLeft * _moveSpeed * Time.deltaTime);
         }
         
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
+
+        // if (_isMoving == true)
+        // {
+        //     Vector3 _moveLeft = transform.right * _hmove;
+        //     _controller.Move(_moveLeft * _moveSpeed * Time.deltaTime);
+        // }
+        
         //if in air, affected by gravity
         _velocity.y -= _gravity * Time.deltaTime;
         _controller.Move(_velocity * Time.deltaTime);
-        //Jump();
+
+        //transform.rotation = Quaternion.identity; //fix rotation on platforms?
     }
 
     private void CollisionCheck()
