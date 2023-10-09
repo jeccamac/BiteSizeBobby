@@ -35,7 +35,7 @@ public class PlatformMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Player")) 
         {
             onPlatform = true;
-            other.transform.SetParent(transform); //set player as child of platform so that it moves with platform position & rotation
+            other.transform.SetParent(transform, true); //set player as child of platform so that it moves with platform position & rotation
         }
         
     }
