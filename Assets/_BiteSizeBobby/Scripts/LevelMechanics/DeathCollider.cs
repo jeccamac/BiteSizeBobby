@@ -5,7 +5,7 @@ using UnityEngine;
 public class DeathCollider : MonoBehaviour
 {
     GameManager gameManager;
-    private int _deathScore = 300;
+    [SerializeField] private int _deathScore = 300;
 
     private void Start() 
     {
