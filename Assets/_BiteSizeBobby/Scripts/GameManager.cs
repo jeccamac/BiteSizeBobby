@@ -67,7 +67,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Backspace)) //pressing backspace is temporary, just for testing. Add actual pause menu in future
         {
             if (_soundReload != null) { _soundReload.Play(); }
-            RestartLevel();
+            //RestartLevel();
+            DeathReload();
         }
     }
 
@@ -135,11 +136,14 @@ public class GameManager : MonoBehaviour
             //reload level with some stats reset
             Debug.Log("load from last checkpoint");
             if (_soundReload != null) { _soundReload.Play(); }
-            playerController.transform.position = _lastCheckpoint; //load from last checkpoint
-            playerStats._health = 3;//reset health stats
-            playerController.gameObject.SetActive(true); //load player character
-            playerHasDied = false; //reset death bool
-            //RestartLevel();
+
+            if (_lastCheckpoint != null) 
+            {
+                playerController.transform.position = _lastCheckpoint; //load from last checkpoint
+                playerStats._health = 3;//reset health stats
+                playerController.gameObject.SetActive(true); //load player character
+                playerHasDied = false; //reset death bool
+            } else { RestartLevel(); }
         }
     }
     public void RestartLevel() //restart the CURRENT level

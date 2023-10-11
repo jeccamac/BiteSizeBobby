@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class PlatformMovement : MonoBehaviour
 {
     [Header("Platform Settings")]
-    [SerializeField] private Transform _startPoint;
+    [SerializeField] public Transform _startPoint;
     [SerializeField] private Transform _moveToPoint;
     private float _elapsedTime;
     [Tooltip("Move time in seconds")]
@@ -47,4 +47,6 @@ public class PlatformMovement : MonoBehaviour
         other.transform.SetParent(null); //detach player as a child component
         other.transform.rotation = Quaternion.identity;
     }
+
+    
 }

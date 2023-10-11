@@ -23,6 +23,7 @@ public class PlatformFall : MonoBehaviour
         {
             //drop platform
             animator.SetBool("canFall", true);
+            //this.gameObject.SetActive(false);
             Destroy(gameObject, _destroyDelay);
         }
     }
@@ -40,5 +41,4 @@ public class PlatformFall : MonoBehaviour
         //onPlatform = false;
         other.transform.SetParent(null); //detach player as a child component
     }
-
 }
